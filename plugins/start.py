@@ -102,7 +102,7 @@ async def start_command(client: Client, message: Message):
         )
         await client.send_photo(
             chat_id=message.chat.id,
-            photo="plugins/image/nagi.jpg",
+            photo="https://telegra.ph/file/00912aa3a93cfa6964304-9353e2f824517fe563.jpg",
             caption=START_MSG.format(
                 first=message.from_user.first_name,
                 last=message.from_user.last_name,
@@ -139,7 +139,7 @@ async def not_joined(client: Client, message: Message):
 
     await client.send_photo(
             chat_id=message.chat.id,
-            photo="plugins/image/fsub.jpg",
+            photo="https://telegra.ph/file/6eed9a1eb03b7decb533c-901ec535be53469cf6.jpg",
             caption=FORCE_MSG.format(
                 first=message.from_user.first_name,
                 last=message.from_user.last_name,
