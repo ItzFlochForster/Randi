@@ -1,80 +1,87 @@
-#(©)t.me/CodeFlix_Bots
-
-
-
-
 import os
 import logging
 from logging.handlers import RotatingFileHandler
 
+settings = {
+    '_id': 1,  # don't change this line only, if you do you're dying by my hand
+    "SPOILER": False,  # bool write True or False
+    "FILE_AUTO_DELETE": 3600,  # in seconds
+    "AUTO_DEL": True,  # bool write True or False
+    "STICKER_ID": "CAACAgUAA_mckw2STkeY1WMOHJGY4Hs9_1-2fAAIPFAACYLShVon-N6AFLnIiHgQ",
+    "stk_del_timer": 1, # in seconds
+    "bot_admin": [6321064549] #e.g. 1963929292,38739292827 differetiate admins with a comma
+}
 
+HELP_MSG = """help msg
+"""  # shown only to admins
 
-#Bot token @Botfather
-TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "8364423119:AAF0kC0QSRc_uiLGu7ybwagXRcepPEnR7CY")
-
-#Your API ID from my.telegram.org
+# Bot token @Botfather
+TG_BOT_TOKEN = '8364423119:AAF0kC0QSRc_uiLGu7ybwagXRcepPEnR7CY'
+# Your API ID from my.telegram.org
 APP_ID = int(os.environ.get("APP_ID", "22606849"))
 
-#Your API Hash from my.telegram.org
+# Your API Hash from my.telegram.org
 API_HASH = os.environ.get("API_HASH", "ef85493cd32eadcb5309b5957d8d1b86")
 
-#Your db channel Id
-CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "-1002134572304"))
+# Your db channel Id
+DB_CHANNEL_ID = int(os.environ.get("CHANNEL_ID", "-1002134572304"))
 
-# NAMA OWNER
-OWNER = os.environ.get("OWNER", "Taneshima")
+# NAME OF OWNER
+OWNER = os.environ.get("OWNER", "cAT")
 
-#OWNER ID
-OWNER_ID = int(os.environ.get("OWNER_ID", "6440021089"))
+# OWNER ID
+OWNER_ID = 6321064549
 
-#Port
-PORT = os.environ.get("PORT", "8010")
+# SUDO: those who can edit admins in channel
+SUDO = []
+if OWNER_ID not in SUDO:
+    SUDO.append(OWNER_ID)
 
-#Database
+# Port
+PORT = os.environ.get("PORT", "")
+
+# Database
 DB_URI = os.environ.get("DATABASE_URL", "mongodb+srv://meow:meow@meow.a6bo1.mongodb.net/?retryWrites=true&w=majority&appName=meow")
-DB_NAME = os.environ.get("DATABASE_NAME", "Taneshima")
+DB_NAME = os.environ.get("DATABASE_NAME", "Gith")
 
-#force sub channel id, if you want enable force sub
-FORCE_SUB_CHANNEL = int(os.environ.get("FORCE_SUB_CHANNEL", "-1002034112983"))
-FORCE_SUB_CHANNEL2 = int(os.environ.get("FORCE_SUB_CHANNEL2", "-1002330286014"))
-FSC3 = int(os.environ.get("FSC3", "-1003047753136"))
+# FSUBS configuration
+FSUBS = [
+    {'_id': -109647, "CHANNEL_NAME": "Anime Tomb"}
+]
+
 
 TG_BOT_WORKERS = int(os.environ.get("TG_BOT_WORKERS", "4"))
 
-FILE_AUTO_DELETE = int(os.getenv("FILE_AUTO_DELETE", "1500")) #in seconds
-
-#start message
+# Start message
 START_MSG = os.environ.get("START_MESSAGE", "<blockquote><b>ʏᴏᴏ {mention} ✌🏻</b></blockquote> <blockquote>ꜱᴛᴀʀᴛ ᴛʜᴇ ʙᴏᴛ ᴡɪᴛʜ ᴛʜᴇ ʟɪɴᴋꜱ ᴘʀᴏᴠɪᴅᴇᴅ ɪɴ ᴛʜᴇ ᴄʜᴀɴɴᴇʟ</blockquote>")
-try:
-    ADMINS=[6376328008]
-    for x in (os.environ.get("ADMINS", "6321064549 2061656269").split()):
-        ADMINS.append(int(x))
-except ValueError:
-        raise Exception("Your Admins list does not contain valid integers.")
+ADMINS = []
+# Add other admin IDs here as needed, ensuring not to include OWNER_ID
+other_admin_ids = []  # Replace with actual admin IDs
+for admin_id in other_admin_ids:
+    if admin_id != OWNER_ID:
+        ADMINS.append(admin_id)
 
-#Force sub message 
-FORCE_MSG = os.environ.get("FORCE_SUB_MESSAGE", "<blockquote><b>ʏᴏᴜ ᴇxᴘᴇᴄᴛ ᴛᴏ ᴜꜱᴇ ᴍᴇ, ᴡɪᴛʜᴏᴜᴛ ᴇᴠᴇɴ ᴊᴏɪɴɪɴɢ ᴍʏ ᴍᴀɪɴ ᴄʜᴀɴɴᴇʟꜱ? 😔\nᴊᴏɪɴ ᴛʜᴇ ᴛʜᴇ ᴄʜᴀɴɴᴇʟꜱ, ʟɪɴᴋᴇᴅ ᴡɪᴛʜ ᴛʜᴇ ʙᴜᴛᴛᴏɴꜱ</b></blockquote>")
+# Ensure OWNER_ID is not duplicated
+if OWNER_ID not in ADMINS:
+    ADMINS.append(OWNER_ID)
 
-#set your Custom Caption here, Keep None for Disable Custom Caption
-CUSTOM_CAPTION = os.environ.get("CUSTOM_CAPTION", "")
+# Set your Custom Caption here, Keep None for Disable Custom Caption
+CUSTOM_CAPTION = '<blockquote><b>{previouscaption}\n\n◦ ʙʏ ⌯ @Anime_Tomb</b></blockquote>'
 
-#set True if you want to prevent users from forwarding files from bot
+# Set True if you want to prevent users from forwarding files from the bot
 PROTECT_CONTENT = True if os.environ.get('PROTECT_CONTENT', "False") == "True" else False
 
-#Set true if you want Disable your Channel Posts Share button
-DISABLE_CHANNEL_BUTTON = os.environ.get("DISABLE_CHANNEL_BUTTON", None) == 'False'
+# Set true if you want to disable your Channel Posts Share button
+DISABLE_CHANNEL_BUTTON = True  # True or None
 
 BOT_STATS_TEXT = "<blockquote><b>BOT UPTIME</b>\n{uptime}</blockquote>"
 USER_REPLY_TEXT = "ʙᴀᴋᴋᴀ ! ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴍʏ ꜱᴇɴᴘᴀɪ!!"
-
-ADMINS.append(OWNER_ID)
-ADMINS.append(5191566338)
 
 LOG_FILE_NAME = "filesharingbot.txt"
 
 logging.basicConfig(
     level=logging.INFO,
-    format="[%(asctime)s - %(levelname)s] - %(name)s - %(message)s",                                            
+    format="[%(asctime)s - %(levelname)s] - %(name)s - %(message)s",
     datefmt='%d-%b-%y %H:%M:%S',
     handlers=[
         RotatingFileHandler(
@@ -85,10 +92,7 @@ logging.basicConfig(
         logging.StreamHandler()
     ]
 )
-logging.getLogger("pyrofork").setLevel(logging.WARNING)
-
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
 
 def LOGGER(name: str) -> logging.Logger:
     return logging.getLogger(name)
-   
-        
